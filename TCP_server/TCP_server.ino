@@ -33,9 +33,9 @@
 #define GSM_PIN ""
 
 // Your GPRS credentials, if any
-const char apn[]      = "m2m.gt.msk";
-const char gprsUser[] = "UchalinsGOK";
-const char gprsPass[] = "BMr6p";
+const char apn[]      = "APN";
+const char gprsUser[] = "Login";
+const char gprsPass[] = "Passwd";
 //const int  port = 4001;
 
 #include <TinyGsmClient.h>
