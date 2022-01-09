@@ -33,9 +33,9 @@
 #define GSM_PIN ""
 
 // Your GPRS credentials, if any
-const char apn[]      = "APN";
-const char gprsUser[] = "Login";
-const char gprsPass[] = "Passwd";
+const char apn[]      = "apn";
+const char gprsUser[] = "gprsUser";
+const char gprsPass[] = "gprsPass";
 //const int  port = 4001;
 
 #include <TinyGsmClient.h>
@@ -104,20 +104,23 @@ void setupModem()
 
 void handleConnection() { // from GPRS server
 
-/*  while (Serial2.available()) {
-    char c2 = Serial2.read();
-    SerialMon.print(c2);
-  }*/
   while (client.connected()) {
     if (Serial2.available()) {
       char c2 = Serial2.read();
       client.print(c2);
     }
-/*    if (client.available()) {
-      char c = client.read();
-      Serial2.print(c);
-    }*/
   } // while (client.connected())   
+}
+
+void ATCommandTest() {
+  //*************** Test AT command***********************
+        if (SerialAT.available()) {
+          SerialMon.write(SerialAT.read());
+        }
+        if (SerialMon.available()) {
+          SerialAT.write(SerialMon.read());
+        }
+//*************** END Test AT command***********************
 }
 
 void setup() {
@@ -161,7 +164,6 @@ startModem();
 }
 
 void loop() {
-    handleConnection();
-    
-    //delay(1000); 
+   handleConnection();
+   ATCommandTest();
 }
