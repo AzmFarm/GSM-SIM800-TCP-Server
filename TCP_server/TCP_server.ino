@@ -1,7 +1,11 @@
+// Configure TinyGSM library
 // Please select the corresponding model
 // Select your modem:
 #define TINY_GSM_MODEM_SIM800
 #define SIM800L_IP5306_VERSION_20200811
+
+//#define TINY_GSM_RX_BUFFER   1024  // Set RX buffer to 1Kb
+
 
 #include <Arduino.h>
 #include "utilities.h"
@@ -102,17 +106,7 @@ void setupModem()
   }
 }
 
-void handleConnection() { // from GPRS server
-
-  while (client.connected()) {
-    if (Serial2.available()) {
-      char c2 = Serial2.read();
-      client.print(c2);
-    }
-  } // while (client.connected())   
-}
-
-void ATCommandTest() {
+/*void ATCommandTest() {
   //*************** Test AT command***********************
         if (SerialAT.available()) {
           SerialMon.write(SerialAT.read());
@@ -121,6 +115,27 @@ void ATCommandTest() {
           SerialAT.write(SerialMon.read());
         }
 //*************** END Test AT command***********************
+}*/
+/*
+void handleConnection() { // from GPRS server
+
+  while (client.connected()) {
+    if (Serial2.available()) {
+      char c2 = Serial2.read();
+      client.print(c2);
+    }
+    ATCommandTest();
+  } // while (client.connected())   
+}*/
+
+void handleConnection() { // from BS RTK to Rover
+
+//  while (client.connected()) {
+    if (Serial2.available()) {
+      SerialAT.print(char(Serial2.read()));
+    }
+    //ATCommandTest();
+//  } // while (client.connected())   
 }
 
 void setup() {
@@ -165,5 +180,4 @@ startModem();
 
 void loop() {
    handleConnection();
-   ATCommandTest();
 }

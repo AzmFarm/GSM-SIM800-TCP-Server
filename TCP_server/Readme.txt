@@ -60,6 +60,16 @@ Here is what i did:
      waitResponse();
   }
 
+//*****************************************************************************************************************
+    //Set to multi-IP AT+CIPMUX=<n>, <n>=0 Single IP connection, <n>=1 Multi IP connection;
+    sendAT(GF("+CIPMUX=0"));
+    if (waitResponse() != 1) { return false; } 
+	
+	// Set to AT+CIPMODE=<n>, <n>=0 NORMAL MODE (AT Command pushed mode),<n>=1 -TRANSPARENT MODE, if CIPMODE=1 then CIPMUX=0
+    sendAT(GF("+CIPMODE=1"));
+    if (waitResponse() != 1) { return false; } 
+//*****************************************************************************************************************	
+
 //***********************Now in your program you can do:***************************************
 
 Function startModem:
