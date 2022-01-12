@@ -150,20 +150,20 @@ void handleConnection() { // from GPRS server
 
 handleConnection();
 
-//**********************C:\Users\azamat\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.2\cores\esp32\HardwareSerial.cpp****************************
+//**********************C:\Users\User\AppData\Local\Arduino15\packages\esp32\hardware\esp32\2.0.2\cores\esp32\HardwareSerial.cpp****************************
 https://www.youtube.com/watch?v=GwShqW39jlE&t=130s
 
 #if SOC_UART_NUM > 2
 #ifndef RX2
 #if CONFIG_IDF_TARGET_ESP32
-//#define RX2 16 // RX GPIO16 default
-#define RX2 4 // RX GPIO4
+//#define RX2 16
+#define RX2 19
 #endif
 #endif
 
 #ifndef TX2
 #if CONFIG_IDF_TARGET_ESP32
-//#define TX2 17 // TX GPIO17 default
-#define TX2 0 // TX GPIO0
+//#define TX2 17
+#define TX2 23
 #endif
 #endif
