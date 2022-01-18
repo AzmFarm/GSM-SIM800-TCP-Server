@@ -41,6 +41,7 @@ const char apn[]      = "apn";
 const char gprsUser[] = "gprsUser";
 const char gprsPass[] = "gprsPass";
 //const int  port = 4001;
+String readAuth; // Буфер для данных Authorization: Basic
 
 #include <TinyGsmClient.h>
 //#include <ArduinoHttpClient.h>
@@ -130,18 +131,40 @@ void handleConnection() { // from GPRS server
 
 void handleConnection() { // from BS RTK to Rover
 
-//  while (client.connected()) {
-    if (Serial2.available()) {
-      SerialAT.print(char(Serial2.read()));
-    }
-    //ATCommandTest();
-//  } // while (client.connected())   
+   if(SerialAT.available()) {
+     char c = SerialAT.read();
+     readAuth += c;
+      if (c == '\n') {
+      if (readAuth.lastIndexOf(F("Authorization: Basic Og=="))>-1) {
+        //SerialMon.print("200 OK");
+        SerialAT.print("200 OK"); // Authorization Accept
+        // in loop, in reality, the code in the comment will be used
+          while (true) {  // Pushed to NTRIP Client
+            if(SerialAT.available()) {  // if(Serial2.available())
+              SerialMon.print(char (SerialAT.read()));  // SerialAT.print(Serial2.read());
+              SerialAT.print("$GPGGA"); // Delete
+            } //
+            
+          }
+       }
+     }
+   } 
+      /*if (String (c).lastIndexOf(F("$GPGGA"))>-1) {
+       //SerialAT.print(c);
+       SerialAT.print(SerialMon.read());
+       SerialMon.print(c);
+      }
+     }*/
+/*     else {
+       break;
+     }  */
+   //}
 }
 
 void setup() {
   // Set console baud rate
   SerialMon.begin(115200);
-  Serial2.begin(115200);
+  Serial2.begin(57600);
   delay(10);
 
   // !!!!!!!!!!!
@@ -155,7 +178,7 @@ void setup() {
     SerialAT.begin(115200, SERIAL_8N1, MODEM_RX, MODEM_TX);
 
   // Set GPS module baud rate and UART pins
-    Serial2.begin(115200, SERIAL_8N1, 19, 23); //pin19=RX, pin23=TX
+    Serial2.begin(57600, SERIAL_8N1, 19, 23); //pin19=RX, pin23=TX
 
   setupModem();
   delay(1000);
